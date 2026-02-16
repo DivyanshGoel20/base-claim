@@ -1,10 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { sdk } from '@farcaster/miniapp-sdk'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    // Hide splash screen and display content after app is fully loaded
+    sdk.actions.ready()
+  }, [])
 
   return (
     <>
