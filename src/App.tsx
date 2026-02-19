@@ -20,6 +20,10 @@ function App() {
     setUser(signedInUser)
   }
 
+  const handleSignOut = () => {
+    setUser(null)
+  }
+
   // Show sign-in screen if not authenticated
   if (!user) {
     return (
@@ -42,7 +46,7 @@ function App() {
       <main className="app-content">
         {activeTab === 'explore' && <ExploreTokens />}
         {activeTab === 'create' && <CreateToken />}
-        {activeTab === 'profile' && <MyProfile />}
+        {activeTab === 'profile' && <MyProfile user={user} onSignOut={handleSignOut} />}
       </main>
       <Tabs activeTab={activeTab} onTabChange={setActiveTab} />
     </div>
