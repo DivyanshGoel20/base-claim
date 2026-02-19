@@ -1,8 +1,102 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  overflow: hidden;
+}
+
+/* Sign-in Screen */
+.sign-in-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   padding: 2rem;
+}
+
+.sign-in-content {
   text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.sign-in-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+.sign-in-subtitle {
+  font-size: 1.25rem;
+  color: #a0a0a0;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+/* App Content */
+.app-container {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: transparent;
+  border-bottom: 1px solid #2a2a3e;
+}
+
+.app-header h1 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+
+.app-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 80px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.app-content::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  padding: 2em;
+  background: #1e1e2e;
+  border-radius: 12px;
+  border: 1px solid #2a2a3e;
+}
+
+.card h2 {
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.card p {
+  color: #a0a0a0;
+  line-height: 1.6;
+}
+
+.read-the-docs {
+  color: #888;
+  margin-top: 1rem;
 }
 
 .logo {
@@ -31,12 +125,4 @@
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

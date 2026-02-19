@@ -4,13 +4,17 @@ import { createBaseAccountSDK } from '@base-org/account'
 import { createWalletClient, custom } from 'viem'
 import { base } from 'viem/chains'
 
-interface SignedInUser {
+export interface SignedInUser {
   address: `0x${string}`
   timestamp: number
 }
 
-export function SignInWithBase(): React.ReactElement {
-  const [user, setUser] = useState<SignedInUser | null>(null)
+interface SignInWithBaseProps {
+  onSignIn: (user: SignedInUser) => void
+  onSignOut?: () => void
+}
+
+export function SignInWithBase({ onSignIn, onSignOut }: SignInWithBaseProps): React.ReactElement {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -65,11 +69,13 @@ export function SignInWithBase(): React.ReactElement {
         message,
       })
 
-      setUser({
+      const user: SignedInUser = {
         address: account,
         timestamp: Date.now(),
-      })
+      }
+      
       console.log('Signed in:', account, signature)
+      onSignIn(user)
     } catch (err: unknown) {
       const code = (err as { code?: number })?.code
       if (code === 4001) {
@@ -85,40 +91,6 @@ export function SignInWithBase(): React.ReactElement {
     } finally {
       setLoading(false)
     }
-  }
-
-  const handleSignOut = (): void => {
-    setUser(null)
-    setError(null)
-  }
-
-  if (user) {
-    return (
-      <div style={{ textAlign: 'center' }}>
-        <p style={{ marginBottom: '8px' }}>
-          <strong>Signed in:</strong>{' '}
-          <code style={{ fontSize: '14px' }}>{user.address.slice(0, 6)}…{user.address.slice(-4)}</code>
-        </p>
-        <p style={{ color: '#666', fontSize: '14px', marginBottom: '12px' }}>
-          {new Date(user.timestamp).toLocaleString()}
-        </p>
-        <button
-          type="button"
-          onClick={handleSignOut}
-          style={{
-            padding: '8px 16px',
-            background: '#6c757d',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '14px',
-          }}
-        >
-          Sign out
-        </button>
-      </div>
-    )
   }
 
   return (

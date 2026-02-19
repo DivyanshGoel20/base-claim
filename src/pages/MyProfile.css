@@ -1,0 +1,14 @@
+.my-profile {
+  padding: 1.5rem;
+}
+
+.my-profile h2 {
+  color: #ff6b9d;
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.my-profile p {
+  color: #a0a0a0;
+  font-size: 1rem;
+}
