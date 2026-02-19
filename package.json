@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@base-org/account": "^2.5.2",
+    "@base-org/account-ui": "^1.0.1",
     "@farcaster/auth-kit": "^0.8.2",
     "@farcaster/miniapp-sdk": "^0.2.3",
     "react": "^19.2.0",
