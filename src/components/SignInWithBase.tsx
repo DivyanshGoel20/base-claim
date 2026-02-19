@@ -1,76 +1,122 @@
-import { useState, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { SignInWithBaseButton } from '@base-org/account-ui/react'
 import { createBaseAccountSDK } from '@base-org/account'
 import { createWalletClient, custom } from 'viem'
 import { base } from 'viem/chains'
 
-interface SignInWithBaseProps {
-  onSuccess?: (address: string) => void
+interface SignedInUser {
+  address: `0x${string}`
+  timestamp: number
 }
 
-export function SignInWithBase({ onSuccess }: SignInWithBaseProps) {
-  const [loading, setLoading] = useState(false)
+export function SignInWithBase(): React.ReactElement {
+  const [user, setUser] = useState<SignedInUser | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
-  const [userAddress, setUserAddress] = useState<string | null>(null)
 
   const sdk = useMemo(
     () =>
       createBaseAccountSDK({
         appName: 'Base Claim',
-        appLogoUrl: window.location.origin + '/vite.svg',
+        appLogoUrl: `${window.location.origin}/vite.svg`,
         appChainIds: [base.id],
       }),
     []
   )
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (): Promise<void> => {
     setLoading(true)
     setError(null)
 
     try {
-      console.log('Button clicked, getting provider...')
       const provider = sdk.getProvider()
-      
       if (!provider) {
-        throw new Error(
-          'Base Account extension not detected. Please install Base Account extension first.'
-        )
+        throw new Error('Base Account extension not detected. Please install it first.')
       }
 
-      console.log('Provider available:', !!provider)
-      
       const client = createWalletClient({
         chain: base,
         transport: custom(provider),
       })
 
-      const addresses = await client.getAddresses()
-      console.log('Retrieved addresses:', addresses)
-      
-      if (!addresses || addresses.length === 0) {
-        throw new Error('No account found. Please create an account in Base Account extension.')
+      let addresses: readonly `0x${string}`[]
+      try {
+        addresses = await client.requestAddresses()
+      } catch (e: unknown) {
+        const code = (e as { code?: number })?.code
+        if (code === 4001) {
+          throw new Error('Connection request was rejected.')
+        }
+        if (code === -32002) {
+          throw new Error('A connection request is already pending.')
+        }
+        const raw = await provider.request({ method: 'eth_requestAccounts' })
+        addresses = Array.isArray(raw) ? (raw as `0x${string}`[]) : []
+      }
+
+      if (!addresses?.length) {
+        throw new Error('No account selected.')
       }
 
       const account = addresses[0]
-      console.log('Sign in successful:', account)
-      setUserAddress(account)
-      onSuccess?.(account)
-    } catch (err) {
-      console.error('Sign in error:', err)
-      const errorMessage =
-        err instanceof Error
-          ? err.message
-          : 'Sign in failed. Please check the console for details.'
-      setError(errorMessage)
+      const message = `Sign in to Base Claim at ${Date.now()}`
+      const signature = await client.signMessage({
+        account,
+        message,
+      })
+
+      setUser({
+        address: account,
+        timestamp: Date.now(),
+      })
+      console.log('Signed in:', account, signature)
+    } catch (err: unknown) {
+      const code = (err as { code?: number })?.code
+      if (code === 4001) {
+        setError('You rejected the sign-in request.')
+        return
+      }
+      if (code === -32002) {
+        setError('A sign-in request is already pending. Check your wallet.')
+        return
+      }
+      const message = err instanceof Error ? err.message : 'Sign in failed'
+      setError(message)
     } finally {
       setLoading(false)
     }
   }
 
-  if (userAddress) {
+  const handleSignOut = (): void => {
+    setUser(null)
+    setError(null)
+  }
+
+  if (user) {
     return (
-      <div>
-        <p>Connected: {userAddress.slice(0, 6)}...{userAddress.slice(-4)}</p>
+      <div style={{ textAlign: 'center' }}>
+        <p style={{ marginBottom: '8px' }}>
+          <strong>Signed in:</strong>{' '}
+          <code style={{ fontSize: '14px' }}>{user.address.slice(0, 6)}…{user.address.slice(-4)}</code>
+        </p>
+        <p style={{ color: '#666', fontSize: '14px', marginBottom: '12px' }}>
+          {new Date(user.timestamp).toLocaleString()}
+        </p>
+        <button
+          type="button"
+          onClick={handleSignOut}
+          style={{
+            padding: '8px 16px',
+            background: '#6c757d',
+            color: 'white',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '14px',
+          }}
+        >
+          Sign out
+        </button>
       </div>
     )
   }
@@ -83,12 +129,10 @@ export function SignInWithBase({ onSuccess }: SignInWithBaseProps) {
         colorScheme="dark"
         onClick={handleSignIn}
       />
-      {error && (
-        <p style={{ color: 'red', marginTop: '10px', fontSize: '14px' }}>
-          {error}
-        </p>
+      {loading && <p style={{ marginTop: '10px', color: '#666' }}>Connecting…</p>}
+      {error !== null && (
+        <p style={{ color: '#c00', marginTop: '10px', fontSize: '14px' }}>{error}</p>
       )}
-      {loading && <p style={{ marginTop: '10px' }}>Connecting...</p>}
     </div>
   )
 }

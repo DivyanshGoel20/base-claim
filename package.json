@@ -12,11 +12,14 @@
   "dependencies": {
     "@base-org/account": "^2.5.2",
     "@base-org/account-ui": "^1.0.1",
+    "@coinbase/onchainkit": "^1.1.2",
     "@farcaster/auth-kit": "^0.8.2",
     "@farcaster/miniapp-sdk": "^0.2.3",
+    "@wagmi/core": "^2.22.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "viem": "^2.46.1"
+    "viem": "^2.46.1",
+    "wagmi": "^2.19.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
