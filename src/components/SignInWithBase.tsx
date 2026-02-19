@@ -11,10 +11,9 @@ export interface SignedInUser {
 
 interface SignInWithBaseProps {
   onSignIn: (user: SignedInUser) => void
-  onSignOut?: () => void
 }
 
-export function SignInWithBase({ onSignIn, onSignOut }: SignInWithBaseProps): React.ReactElement {
+export function SignInWithBase({ onSignIn }: SignInWithBaseProps): React.ReactElement {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
