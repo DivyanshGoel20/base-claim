@@ -4,9 +4,10 @@ import './ExploreTokens.css'
 
 interface ExploreTokensProps {
   campaigns: Campaign[]
+  onCampaignClick: (campaign: Campaign) => void
 }
 
-export function ExploreTokens({ campaigns }: ExploreTokensProps) {
+export function ExploreTokens({ campaigns, onCampaignClick }: ExploreTokensProps) {
   return (
     <div className="explore-tokens">
       <h2>Explore Tokens</h2>
@@ -16,7 +17,11 @@ export function ExploreTokens({ campaigns }: ExploreTokensProps) {
         <ul className="explore-tokens-list">
           {campaigns.map((campaign, index) => (
             <li key={campaign.id}>
-              <CampaignCard campaign={campaign} index={index} />
+              <CampaignCard
+                campaign={campaign}
+                index={index}
+                onClick={() => onCampaignClick(campaign)}
+              />
             </li>
           ))}
         </ul>

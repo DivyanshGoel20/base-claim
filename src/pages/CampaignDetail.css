@@ -1,0 +1,262 @@
+.campaign-detail {
+  padding: 1rem 1.5rem 120px;
+  animation: campaignDetailIn 0.35s ease;
+}
+
+@keyframes campaignDetailIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.campaign-detail-back {
+  background: transparent;
+  border: none;
+  color: #4a9eff;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.campaign-detail-back:hover {
+  color: #6b7fff;
+  transform: translateX(-2px);
+}
+
+.campaign-detail-hero {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(26, 26, 46, 0.8);
+  margin-bottom: 1.5rem;
+}
+
+.campaign-detail-image {
+  width: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  max-height: 220px;
+}
+
+.campaign-detail-image-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, rgba(42, 42, 62, 0.6), rgba(26, 26, 46, 0.8));
+}
+
+.campaign-detail-body {
+  padding: 0 0.25rem;
+}
+
+.campaign-detail-title {
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 0.35rem 0;
+  line-height: 1.25;
+}
+
+.campaign-detail-meta {
+  color: #4a9eff;
+  font-size: 1rem;
+  margin: 0 0 1rem 0;
+}
+
+.campaign-detail-desc {
+  color: #a0a0a0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 0.75rem 0;
+}
+
+/* Progress */
+.campaign-detail-progress-wrap {
+  margin-bottom: 2.5rem;
+}
+
+.campaign-detail-progress-bar {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  background: rgba(26, 26, 46, 0.9);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 0.85rem;
+  box-shadow:
+    inset 0 2px 6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(42, 42, 62, 0.8);
+}
+
+.campaign-detail-progress-fill {
+  position: relative;
+  height: 100%;
+  min-width: 4%;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(42, 100, 180, 0.95),
+    #4a9eff 20%,
+    #6b7fff 70%,
+    rgba(120, 140, 255, 0.95) 100%
+  );
+  transition: width 0.8s cubic-bezier(0.34, 1.2, 0.64, 1);
+  box-shadow:
+    0 0 20px rgba(74, 158, 255, 0.45),
+    0 0 40px rgba(107, 127, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.campaign-detail-progress-fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0.05) 60%,
+    transparent
+  );
+  border-radius: 999px 999px 0 0;
+  pointer-events: none;
+  animation: campaignDetailProgressShine 2.5s ease-in-out infinite;
+}
+
+@keyframes campaignDetailProgressShine {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.campaign-detail-progress-text {
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+  text-align: center;
+  letter-spacing: 0.02em;
+  transition: transform 0.35s cubic-bezier(0.34, 1.2, 0.64, 1);
+  text-shadow: 0 0 20px rgba(74, 158, 255, 0.3);
+}
+
+.campaign-detail-funding-text {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  margin: 0;
+  text-align: center;
+}
+
+/* Claim buttons */
+.campaign-detail-claim-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
+}
+
+.campaign-detail-hold-btn {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 3px solid rgba(74, 158, 255, 0.5);
+  background: rgba(26, 26, 46, 0.8);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  overflow: hidden;
+}
+
+.campaign-detail-hold-btn:hover {
+  border-color: #4a9eff;
+  box-shadow: 0 0 24px rgba(74, 158, 255, 0.3);
+  transform: scale(1.02);
+}
+
+.campaign-detail-hold-btn:active {
+  transform: scale(0.98);
+}
+
+.campaign-detail-hold-liquid {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--hold) * 1%);
+  background: linear-gradient(
+    to top,
+    rgba(30, 70, 140, 0.98),
+    rgba(74, 158, 255, 0.9) 25%,
+    rgba(100, 175, 255, 0.8) 60%,
+    rgba(130, 190, 255, 0.7) 100%
+  );
+  border-radius: 50% 50% 0 0 / 15% 15% 0 0;
+  pointer-events: none;
+  transition: height 0.07s ease-out;
+  overflow: hidden;
+  box-shadow: inset 0 -8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.campaign-detail-hold-liquid::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0.08) 70%,
+    transparent
+  );
+  border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+  animation: campaignDetailLiquidShine 2s ease-in-out infinite;
+}
+
+@keyframes campaignDetailLiquidShine {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.campaign-detail-hold-label {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 0.5rem;
+  line-height: 1.3;
+}
+
+.campaign-detail-claimed-btn {
+  width: 100%;
+  max-width: 280px;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(76, 175, 80, 0.2));
+  color: #4caf50;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: default;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.campaign-detail-claimed-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(76, 175, 80, 0.25);
+}

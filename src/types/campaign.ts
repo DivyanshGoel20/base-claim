@@ -17,4 +17,6 @@ export interface Campaign {
   phases: Phase[]
   createdAt: number
   creatorAddress?: string
+  /** Number of claims so far (for progress). */
+  totalClaimed?: number
 }
