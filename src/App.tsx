@@ -6,11 +6,17 @@ import { Tabs } from './components/Tabs'
 import { ExploreTokens } from './pages/ExploreTokens'
 import { CreateToken } from './pages/CreateToken'
 import { MyProfile } from './pages/MyProfile'
+import type { Campaign } from './types/campaign'
 import './App.css'
 
 function App() {
   const [user, setUser] = useState<SignedInUser | null>(null)
   const [activeTab, setActiveTab] = useState<string>('explore')
+  const [campaigns, setCampaigns] = useState<Campaign[]>([])
+
+  const handlePublishCampaign = (campaign: Campaign) => {
+    setCampaigns((prev) => [...prev, campaign])
+  }
 
   useEffect(() => {
     sdk.actions.ready()
@@ -44,8 +50,8 @@ function App() {
         <h1>Base Claim</h1>
       </header>
       <main className="app-content">
-        {activeTab === 'explore' && <ExploreTokens />}
-        {activeTab === 'create' && <CreateToken />}
+        {activeTab === 'explore' && <ExploreTokens campaigns={campaigns} />}
+        {activeTab === 'create' && <CreateToken onPublish={handlePublishCampaign} />}
         {activeTab === 'profile' && <MyProfile user={user} onSignOut={handleSignOut} />}
       </main>
       <Tabs activeTab={activeTab} onTabChange={setActiveTab} />

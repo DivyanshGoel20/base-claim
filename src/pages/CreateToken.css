@@ -1,14 +1,450 @@
 .create-token {
   padding: 1.5rem;
+  padding-bottom: 120px;
+  animation: createTokenPageIn 0.35s ease;
+}
+
+@keyframes createTokenPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .create-token h2 {
   color: #4a9eff;
   font-size: 1.75rem;
+  margin-bottom: 0.35rem;
+  transition: color 0.25s ease;
+}
+
+.create-token-subtitle {
+  color: #a0a0a0;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.create-token-section {
+  margin-bottom: 2rem;
+}
+
+.create-token-section-animate {
+  animation: createTokenSectionIn 0.4s ease backwards;
+}
+
+.create-token-section-animate:nth-child(1) { animation-delay: 0.05s; }
+.create-token-section-animate:nth-child(2) { animation-delay: 0.1s; }
+.create-token-section-animate:nth-child(3) { animation-delay: 0.15s; }
+
+@keyframes createTokenSectionIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.create-token-section h3 {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
   margin-bottom: 1rem;
 }
 
-.create-token p {
+.create-token-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.create-token-section-head h3 {
+  margin-bottom: 0;
+}
+
+.create-token-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.create-token-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.create-token-fields label span {
   color: #a0a0a0;
+  font-size: 0.85rem;
+}
+
+.create-token-field-error input,
+.create-token-field-error textarea {
+  border-color: rgba(244, 67, 54, 0.5) !important;
+  box-shadow: 0 0 0 1px rgba(244, 67, 54, 0.2);
+}
+
+.create-token-fields input,
+.create-token-fields textarea {
+  background: rgba(30, 30, 46, 0.6);
+  border: 1px solid rgba(42, 42, 62, 0.6);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  color: #fff;
   font-size: 1rem;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  font-family: inherit;
+}
+
+.create-token-fields input:focus,
+.create-token-fields textarea:focus {
+  outline: none;
+  border-color: #4a9eff;
+  box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.2);
+}
+
+.create-token-fields input:hover,
+.create-token-fields textarea:hover {
+  border-color: rgba(42, 42, 62, 1);
+}
+
+.create-token-fields input::placeholder,
+.create-token-fields textarea::placeholder {
+  color: #666;
+}
+
+/* Image upload */
+.create-token-image-label {
+  position: relative;
+}
+
+.create-token-file-input {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.create-token-image-placeholder,
+.create-token-image-preview {
+  border: 2px dashed rgba(42, 42, 62, 0.8);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+}
+
+.create-token-image-placeholder:hover {
+  border-color: rgba(74, 158, 255, 0.5);
+  background: rgba(74, 158, 255, 0.05);
+}
+
+.create-token-image-label.create-token-field-error .create-token-image-placeholder,
+.create-token-image-label.create-token-field-error .create-token-image-preview {
+  border-color: rgba(244, 67, 54, 0.5);
+}
+
+.create-token-image-preview {
+  position: relative;
+  padding: 0;
+  border-style: solid;
+  overflow: hidden;
+  max-height: 140px;
+}
+
+.create-token-image-preview img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+}
+
+.create-token-image-check {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(76, 175, 80, 0.9);
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  animation: createTokenCheckPop 0.3s ease;
+}
+
+@keyframes createTokenCheckPop {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.create-token-inline-error {
+  color: #f44336;
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
+  display: block;
+  animation: createTokenFadeIn 0.2s ease;
+}
+
+.create-token-add-phase {
+  background: rgba(74, 158, 255, 0.2);
+  color: #4a9eff;
+  border: 1px solid rgba(74, 158, 255, 0.4);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+}
+
+.create-token-add-phase:hover {
+  background: rgba(74, 158, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.2);
+}
+
+.create-token-add-phase:active {
+  transform: translateY(0);
+}
+
+.create-token-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.create-token-preview,
+.create-token-publish {
+  flex: 1;
+  padding: 0.9rem 1.25rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease, filter 0.25s ease, opacity 0.25s ease;
+  border: none;
+}
+
+.create-token-preview {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.create-token-preview:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.create-token-publish {
+  background: linear-gradient(135deg, #4a9eff, #6b7fff);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
+}
+
+.create-token-publish:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 158, 255, 0.4);
+  filter: brightness(1.05);
+}
+
+.create-token-publish:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.create-token-publish:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+}
+
+.create-token-success {
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  animation: createTokenSuccessIn 0.4s ease;
+}
+
+@keyframes createTokenSuccessIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.create-token-success p {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.create-token-success-hint {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.create-token-reset {
+  background: rgba(74, 158, 255, 0.2);
+  color: #4a9eff;
+  border: 1px solid rgba(74, 158, 255, 0.4);
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.create-token-reset:hover {
+  background: rgba(74, 158, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Modal */
+.create-token-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 200;
+  animation: createTokenFadeIn 0.2s ease;
+}
+
+@keyframes createTokenFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.create-token-modal-content {
+  background: #1a1a2e;
+  border: 1px solid rgba(42, 42, 62, 0.8);
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 400px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: createTokenSlideIn 0.25s ease;
+}
+
+@keyframes createTokenSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.create-token-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.create-token-modal-header h3 {
+  color: #fff;
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.create-token-modal-close {
+  background: none;
+  border: none;
+  color: #a0a0a0;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+
+.create-token-modal-close:hover {
+  color: #fff;
+}
+
+.create-token-preview-body {
+  color: #e0e0e0;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.create-token-preview-body p {
+  margin-bottom: 0.5rem;
+}
+
+.create-token-preview-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.create-token-preview-desc {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+}
+
+.create-token-preview-phases {
+  color: #4a9eff;
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.create-token-modal-done {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(74, 158, 255, 0.2);
+  color: #4a9eff;
+  border: 1px solid rgba(74, 158, 255, 0.4);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.create-token-modal-done:hover {
+  background: rgba(74, 158, 255, 0.3);
 }
