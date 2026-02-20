@@ -3,28 +3,17 @@ import './PhaseEditor.css'
 
 interface PhaseEditorProps {
   phase: Phase
-  index: number
   onChange: (phase: Phase) => void
-  onRemove: () => void
-  canRemove: boolean
   touched?: boolean
 }
 
-export function PhaseEditor({ phase, index, onChange, onRemove, canRemove, touched }: PhaseEditorProps) {
+export function PhaseEditor({ phase, onChange, touched }: PhaseEditorProps) {
   const invalid =
     touched &&
     (phase.pricePerClaim <= 0 || phase.maxParticipants <= 0 || phase.tokensAllocated <= 0)
 
   return (
     <div className={`phase-editor ${invalid ? 'phase-editor-invalid' : ''}`}>
-      <div className="phase-editor-header">
-        <span className="phase-editor-title">Phase {index + 1}</span>
-        {canRemove && (
-          <button type="button" className="phase-remove" onClick={onRemove}>
-            Remove
-          </button>
-        )}
-      </div>
       <div className="phase-fields">
         <label>
           <span>Price per claim (USDC)</span>

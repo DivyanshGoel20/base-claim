@@ -25,7 +25,6 @@ export function MyProfile({ user, onSignOut }: MyProfileProps) {
       id: '2',
       name: 'DeFi Protocol',
       symbol: 'DEFI',
-      phase: 'Phase 1',
       allocation: 1000,
       status: 'pending' as const,
       invested: 500,
@@ -34,7 +33,6 @@ export function MyProfile({ user, onSignOut }: MyProfileProps) {
       id: '3',
       name: 'NFT Marketplace',
       symbol: 'NFTM',
-      phase: 'Phase 2',
       allocation: 500,
       status: 'allocated' as const,
       invested: 250,
@@ -99,7 +97,7 @@ export function MyProfile({ user, onSignOut }: MyProfileProps) {
                 <div className="campaign-header">
                   <div>
                     <div className="campaign-name">{campaign.name}</div>
-                    <div className="campaign-symbol">{campaign.symbol} • {campaign.phase}</div>
+                    <div className="campaign-symbol">{campaign.symbol}</div>
                   </div>
                   <span className={`status-badge status-${campaign.status}`}>
                     {campaign.status}

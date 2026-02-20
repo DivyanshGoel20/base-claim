@@ -22,34 +22,6 @@
   75% { transform: translateX(4px); }
 }
 
-.phase-editor-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.phase-editor-title {
-  color: #fff;
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-.phase-remove {
-  background: transparent;
-  border: 1px solid rgba(244, 67, 54, 0.5);
-  color: #f44336;
-  padding: 0.4rem 0.75rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-
-.phase-remove:hover {
-  background: rgba(244, 67, 54, 0.15);
-}
-
 .phase-fields {
   display: flex;
   flex-direction: column;

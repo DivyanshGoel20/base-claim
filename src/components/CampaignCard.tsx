@@ -33,7 +33,6 @@ export function CampaignCard({ campaign, index, onClick }: CampaignCardProps) {
           {campaign.tokenName} ({campaign.tokenSymbol})
         </p>
         {snippet && <p className="campaign-card-desc">{snippet}</p>}
-        <span className="campaign-card-phases">{campaign.phases.length} phase{campaign.phases.length !== 1 ? 's' : ''}</span>
       </div>
     </article>
   )

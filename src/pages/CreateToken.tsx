@@ -44,13 +44,6 @@ export function CreateToken({ onPublish }: CreateTokenProps) {
     setPhases((prev) => prev.map((p, i) => (i === index ? phase : p)))
   }
 
-  const addPhase = () => {
-    setPhases((prev) => [...prev, createEmptyPhase()])
-  }
-
-  const removePhase = (index: number) => {
-    setPhases((prev) => prev.filter((_, i) => i !== index))
-  }
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setImageError('')
@@ -200,23 +193,12 @@ export function CreateToken({ onPublish }: CreateTokenProps) {
       </section>
 
       <section className="create-token-section create-token-section-animate">
-        <div className="create-token-section-head">
-          <h3>Phases</h3>
-          <button type="button" className="create-token-add-phase" onClick={addPhase}>
-            + Add phase
-          </button>
-        </div>
-        {phases.map((phase, index) => (
-          <PhaseEditor
-            key={phase.id}
-            phase={phase}
-            index={index}
-            onChange={(p) => updatePhase(index, p)}
-            onRemove={() => removePhase(index)}
-            canRemove={phases.length > 1}
-            touched={touched}
-          />
-        ))}
+        <h3>Claim details</h3>
+        <PhaseEditor
+          phase={phases[0]}
+          onChange={(p) => updatePhase(0, p)}
+          touched={touched}
+        />
       </section>
 
       <div className="create-token-actions">
@@ -251,7 +233,6 @@ export function CreateToken({ onPublish }: CreateTokenProps) {
               <p><strong>{projectName || '—'}</strong></p>
               <p>{tokenName} ({tokenSymbol})</p>
               <p className="create-token-preview-desc">{description || '—'}</p>
-              <p className="create-token-preview-phases">{phases.length} phase(s)</p>
             </div>
             <button type="button" className="create-token-modal-done" onClick={() => setShowPreview(false)}>
               Done
