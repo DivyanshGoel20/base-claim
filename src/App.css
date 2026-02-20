@@ -50,17 +50,73 @@
 
 .app-header {
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 1.5rem 2rem;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
   background: transparent;
   border-bottom: 1px solid #2a2a3e;
+  gap: 0.75rem;
 }
 
-.app-header h1 {
-  font-size: 1.5rem;
+.app-header-logo {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4a9eff 0%, #6b7fff 100%);
+  box-shadow: 0 2px 8px rgba(74, 158, 255, 0.35);
+}
+
+.app-header-title {
+  flex: 1;
+  font-size: 1.25rem;
   color: #fff;
   margin: 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+.app-header-profile {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  flex-shrink: 0;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.app-header-profile-icon {
+  width: 18px;
+  height: 18px;
+  color: rgba(255, 255, 255, 0.9);
+  transition: color 0.2s;
+}
+
+.app-header-profile.active .app-header-profile-icon {
+  color: #4a9eff;
+}
+
+.app-header-profile:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.app-header-profile.active {
+  border-color: #4a9eff;
+  background: rgba(74, 158, 255, 0.25);
+  box-shadow: 0 0 0 1px rgba(74, 158, 255, 0.3);
+}
+
+.app-header-profile:active {
+  transform: scale(0.96);
 }
 
 .app-content {

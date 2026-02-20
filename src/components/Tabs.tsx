@@ -20,12 +20,6 @@ export function Tabs({ activeTab, onTabChange }: TabsProps) {
       >
         Create Token
       </button>
-      <button
-        className={`tab ${activeTab === 'profile' ? 'active' : ''}`}
-        onClick={() => onTabChange('profile')}
-      >
-        My Profile
-      </button>
     </nav>
   )
 }

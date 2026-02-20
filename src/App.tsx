@@ -72,7 +72,19 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>Base Claim</h1>
+        <div className="app-header-logo" aria-hidden />
+        <h1 className="app-header-title">Base Claim</h1>
+        <button
+          type="button"
+          className={`app-header-profile ${activeTab === 'profile' ? 'active' : ''}`}
+          onClick={() => setActiveTab('profile')}
+          aria-label="My profile"
+        >
+          <svg className="app-header-profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <circle cx="12" cy="8" r="3" />
+            <path d="M5 20v-2a5 5 0 0 1 10 0v2" />
+          </svg>
+        </button>
       </header>
       <main className="app-content">
         {activeTab === 'explore' &&
