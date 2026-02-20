@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import type { Campaign, Phase } from '../types/campaign'
-import { PhaseEditor } from '../components/PhaseEditor'
 import './CreateToken.css'
 
 const MAX_IMAGE_BYTES = 1024 * 1024
@@ -77,10 +76,7 @@ export function CreateToken({ onPublish }: CreateTokenProps) {
     tokenSymbol.trim() !== '' &&
     description.trim() !== '' &&
     imageData !== '' &&
-    phases.every(
-      (p) =>
-        p.pricePerClaim > 0 && p.maxParticipants > 0 && p.tokensAllocated > 0
-    )
+    phases.every((p) => p.pricePerClaim > 0 && p.maxParticipants > 0)
 
   const handlePublish = () => {
     setTouched(true)
@@ -133,7 +129,6 @@ export function CreateToken({ onPublish }: CreateTokenProps) {
       <p className="create-token-subtitle">Launch your own claim campaign</p>
 
       <section className="create-token-section create-token-section-animate">
-        <h3>Campaign details</h3>
         <div className="create-token-fields">
           <label className={touched && !projectName.trim() ? 'create-token-field-error' : ''}>
             <span>Project name</span>
@@ -189,16 +184,28 @@ export function CreateToken({ onPublish }: CreateTokenProps) {
             )}
             {imageError && <span className="create-token-inline-error">{imageError}</span>}
           </label>
+          <label className={touched && (phases[0].pricePerClaim <= 0) ? 'create-token-field-error' : ''}>
+            <span>Price per claim (USDC)</span>
+            <input
+              type="number"
+              min={0}
+              step={0.01}
+              placeholder="0"
+              value={phases[0].pricePerClaim || ''}
+              onChange={(e) => updatePhase(0, { ...phases[0], pricePerClaim: Number(e.target.value) || 0 })}
+            />
+          </label>
+          <label className={touched && (phases[0].maxParticipants <= 0) ? 'create-token-field-error' : ''}>
+            <span>Max participants</span>
+            <input
+              type="number"
+              min={1}
+              placeholder="100"
+              value={phases[0].maxParticipants || ''}
+              onChange={(e) => updatePhase(0, { ...phases[0], maxParticipants: Number(e.target.value) || 0 })}
+            />
+          </label>
         </div>
-      </section>
-
-      <section className="create-token-section create-token-section-animate">
-        <h3>Claim details</h3>
-        <PhaseEditor
-          phase={phases[0]}
-          onChange={(p) => updatePhase(0, p)}
-          touched={touched}
-        />
       </section>
 
       <div className="create-token-actions">

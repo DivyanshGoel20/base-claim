@@ -7,11 +7,13 @@ const HOLD_DURATION_MS = 2000
 interface CampaignDetailProps {
   campaign: Campaign
   claimed: boolean
+  paid: boolean
+  onPay: () => void
   onClaim: () => void
   onBack: () => void
 }
 
-export function CampaignDetail({ campaign, claimed, onClaim, onBack }: CampaignDetailProps) {
+export function CampaignDetail({ campaign, claimed, paid, onPay, onClaim, onBack }: CampaignDetailProps) {
   const [holdProgress, setHoldProgress] = useState(0)
   const holdTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const holdStartRef = useRef<number>(0)
@@ -27,7 +29,7 @@ export function CampaignDetail({ campaign, claimed, onClaim, onBack }: CampaignD
   const fundingTarget = maxParticipants * pricePerClaim
 
   const startHold = useCallback(() => {
-    if (claimed) return
+    if (claimed || !paid) return
     holdStartRef.current = Date.now()
     setHoldProgress(0)
     holdTimerRef.current = setInterval(() => {
@@ -40,7 +42,7 @@ export function CampaignDetail({ campaign, claimed, onClaim, onBack }: CampaignD
         onClaim()
       }
     }, 50)
-  }, [claimed, onClaim])
+  }, [claimed, paid, onClaim])
 
   const cancelHold = useCallback(() => {
     if (holdTimerRef.current) {
@@ -84,10 +86,22 @@ export function CampaignDetail({ campaign, claimed, onClaim, onBack }: CampaignD
           </p>
         </div>
 
+        <div className="campaign-detail-price">
+          Price: ${pricePerClaim.toLocaleString()} USDC per claim
+        </div>
+
         <div className="campaign-detail-claim-wrap">
           {claimed ? (
             <button type="button" className="campaign-detail-claimed-btn" disabled>
               Claimed!
+            </button>
+          ) : !paid ? (
+            <button
+              type="button"
+              className="campaign-detail-pay-btn"
+              onClick={onPay}
+            >
+              Pay ${pricePerClaim.toLocaleString()} USDC
             </button>
           ) : (
             <button

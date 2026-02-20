@@ -9,8 +9,7 @@ interface PhaseEditorProps {
 
 export function PhaseEditor({ phase, onChange, touched }: PhaseEditorProps) {
   const invalid =
-    touched &&
-    (phase.pricePerClaim <= 0 || phase.maxParticipants <= 0 || phase.tokensAllocated <= 0)
+    touched && (phase.pricePerClaim <= 0 || phase.maxParticipants <= 0)
 
   return (
     <div className={`phase-editor ${invalid ? 'phase-editor-invalid' : ''}`}>
@@ -32,15 +31,6 @@ export function PhaseEditor({ phase, onChange, touched }: PhaseEditorProps) {
             min={1}
             value={phase.maxParticipants || ''}
             onChange={(e) => onChange({ ...phase, maxParticipants: Number(e.target.value) || 0 })}
-          />
-        </label>
-        <label>
-          <span>Tokens allocated</span>
-          <input
-            type="number"
-            min={1}
-            value={phase.tokensAllocated || ''}
-            onChange={(e) => onChange({ ...phase, tokensAllocated: Number(e.target.value) || 0 })}
           />
         </label>
       </div>

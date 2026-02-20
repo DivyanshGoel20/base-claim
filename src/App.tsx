@@ -16,9 +16,22 @@ function App() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [selectedCampaignId, setSelectedCampaignId] = useState<string | null>(null)
   const [claimedCampaignIds, setClaimedCampaignIds] = useState<Set<string>>(new Set())
+  const [paidCampaignIds, setPaidCampaignIds] = useState<Set<string>>(new Set())
 
   const handlePublishCampaign = (campaign: Campaign) => {
-    setCampaigns((prev) => [...prev, { ...campaign, totalClaimed: 0 }])
+    setCampaigns((prev) => [
+      ...prev,
+      { ...campaign, totalClaimed: 0, creatorAddress: user?.address },
+    ])
+  }
+
+  const handleOpenCampaign = (campaignId: string) => {
+    setSelectedCampaignId(campaignId)
+    setActiveTab('explore')
+  }
+
+  const handlePay = (campaignId: string) => {
+    setPaidCampaignIds((prev) => new Set(prev).add(campaignId))
   }
 
   const handleClaim = (campaignId: string) => {
@@ -77,6 +90,8 @@ function App() {
               <CampaignDetail
                 campaign={campaign}
                 claimed={claimedCampaignIds.has(campaign.id)}
+                paid={paidCampaignIds.has(campaign.id)}
+                onPay={() => handlePay(campaign.id)}
                 onClaim={() => handleClaim(campaign.id)}
                 onBack={() => setSelectedCampaignId(null)}
               />
@@ -88,7 +103,15 @@ function App() {
             />
           ))}
         {activeTab === 'create' && <CreateToken onPublish={handlePublishCampaign} />}
-        {activeTab === 'profile' && <MyProfile user={user} onSignOut={handleSignOut} />}
+        {activeTab === 'profile' && (
+          <MyProfile
+            user={user}
+            campaigns={campaigns}
+            claimedCampaignIds={claimedCampaignIds}
+            onOpenCampaign={handleOpenCampaign}
+            onSignOut={handleSignOut}
+          />
+        )}
       </main>
       <Tabs activeTab={activeTab} onTabChange={setActiveTab} />
     </div>

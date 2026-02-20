@@ -82,6 +82,10 @@
   transform: translateY(0);
 }
 
+.campaign-card-clickable {
+  cursor: pointer;
+}
+
 @keyframes cardIn {
   from {
     opacity: 0;
@@ -204,6 +208,157 @@
   color: #fff;
   font-size: 0.85rem;
   font-weight: 600;
+}
+
+/* My Claims - one line + dropdown */
+.claim-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.claim-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background: rgba(30, 30, 46, 0.6);
+  border: 1px solid rgba(42, 42, 62, 0.6);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.claim-row:hover {
+  border-color: rgba(74, 158, 255, 0.3);
+}
+
+.claim-row-main {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+}
+
+.claim-row-main:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.claim-row-title {
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.claim-row-toggle {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  margin-right: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #a0a0a0;
+  font-size: 0.75rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.claim-row-toggle:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.claim-row-details {
+  flex-basis: 100%;
+  width: 100%;
+  padding: 0 1rem 1rem;
+  border-top: 1px solid rgba(42, 42, 62, 0.5);
+  padding-top: 0.75rem;
+  animation: claimDetailsIn 0.2s ease;
+}
+
+@keyframes claimDetailsIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.claim-row-details .detail-item {
+  margin-bottom: 0.35rem;
+}
+
+.detail-item-fees {
+  margin-bottom: 0.75rem;
+}
+
+.detail-value-fees {
+  color: #4a9eff;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.claim-row-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.claim-row-actions .claim-fees-btn,
+.claim-row-actions .claim-row-view {
+  flex: 1;
+  min-width: 0;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+  border: none;
+  text-align: center;
+}
+
+.claim-row-actions .claim-fees-btn {
+  color: #fff;
+  background: linear-gradient(135deg, #4a9eff, #357abd);
+  box-shadow: 0 2px 8px rgba(74, 158, 255, 0.35);
+}
+
+.claim-row-actions .claim-fees-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #5aaeff, #4a9eff);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.45);
+}
+
+.claim-row-actions .claim-fees-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.claim-row-actions .claim-row-view {
+  color: #4a9eff;
+  background: rgba(74, 158, 255, 0.15);
+  border: 1px solid rgba(74, 158, 255, 0.45);
+}
+
+.claim-row-actions .claim-row-view:hover {
+  background: rgba(74, 158, 255, 0.25);
+  border-color: rgba(74, 158, 255, 0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(74, 158, 255, 0.2);
 }
 
 /* Empty State */
