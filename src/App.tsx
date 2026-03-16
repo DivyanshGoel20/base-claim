@@ -43,11 +43,6 @@ function App() {
     )
   }
 
-  // Always call ready once on mount so the host knows when the app is interactive.
-  useEffect(() => {
-    sdk.actions.ready()
-  }, [])
-
   useEffect(() => {
     ;(async () => {
       try {
@@ -58,6 +53,8 @@ function App() {
           setNotInMiniApp(true)
           return
         }
+
+        await sdk.actions.ready()
 
         const backendOrigin = import.meta.env.VITE_BACKEND_ORIGIN as string | undefined
         if (!backendOrigin) {
