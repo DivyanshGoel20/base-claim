@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import type { SignedInUser } from '../components/SignInWithBase'
 import type { Campaign } from '../types/campaign'
+import type { AuthedUser } from '../types/user'
 import './MyProfile.css'
 
 interface MyProfileProps {
-  user: SignedInUser
+  user: AuthedUser
   campaigns: Campaign[]
   claimedCampaignIds: Set<string>
   onOpenCampaign: (campaignId: string) => void
@@ -25,11 +25,9 @@ export function MyProfile({
     claimableFees[campaignId] ?? (0.02 * ((campaignId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) % 150) + 10))
 
   const createdCampaigns = campaigns.filter(
-    (c) => c.creatorAddress?.toLowerCase() === user.address.toLowerCase()
+    (c) => c.creatorFid === user.fid
   )
   const claimedCampaigns = campaigns.filter((c) => claimedCampaignIds.has(c.id))
-
-  const shortAddress = user.address.slice(0, 6) + '…' + user.address.slice(-4)
 
   return (
     <div className="my-profile">
@@ -37,7 +35,7 @@ export function MyProfile({
 
       <div className="address-row">
         <span className="address-label">Connected</span>
-        <span className="address-short">{shortAddress}</span>
+        <span className="address-short">FID #{user.fid}</span>
       </div>
 
       {/* Campaigns Created */}

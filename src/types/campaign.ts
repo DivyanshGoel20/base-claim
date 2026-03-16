@@ -16,7 +16,8 @@ export interface Campaign {
   imageData: string
   phases: Phase[]
   createdAt: number
-  creatorAddress?: string
+  /** FID of the Farcaster user who created the campaign. */
+  creatorFid?: number
   /** Number of claims so far (for progress). */
   totalClaimed?: number
 }

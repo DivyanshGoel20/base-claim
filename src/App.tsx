@@ -1,27 +1,27 @@
 import { useEffect, useState } from 'react'
 import { sdk } from '@farcaster/miniapp-sdk'
-import { SignInWithBase } from './components/SignInWithBase'
-import type { SignedInUser } from './components/SignInWithBase'
 import { Tabs } from './components/Tabs'
 import { ExploreTokens } from './pages/ExploreTokens'
 import { CreateToken } from './pages/CreateToken'
 import { MyProfile } from './pages/MyProfile'
 import { CampaignDetail } from './pages/CampaignDetail'
 import type { Campaign } from './types/campaign'
+import type { AuthedUser } from './types/user'
 import './App.css'
 
 function App() {
-  const [user, setUser] = useState<SignedInUser | null>(null)
+  const [user, setUser] = useState<AuthedUser | null>(null)
   const [activeTab, setActiveTab] = useState<string>('explore')
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
   const [selectedCampaignId, setSelectedCampaignId] = useState<string | null>(null)
   const [claimedCampaignIds, setClaimedCampaignIds] = useState<Set<string>>(new Set())
   const [paidCampaignIds, setPaidCampaignIds] = useState<Set<string>>(new Set())
+  const [notInMiniApp, setNotInMiniApp] = useState(false)
 
   const handlePublishCampaign = (campaign: Campaign) => {
     setCampaigns((prev) => [
       ...prev,
-      { ...campaign, totalClaimed: 0, creatorAddress: user?.address },
+      { ...campaign, totalClaimed: 0, creatorFid: user?.fid },
     ])
   }
 
@@ -44,28 +44,63 @@ function App() {
   }
 
   useEffect(() => {
-    sdk.actions.ready()
-  }, [])
+    ;(async () => {
+      try {
+        const inMiniApp = await sdk.isInMiniApp()
 
-  const handleSignIn = (signedInUser: SignedInUser) => {
-    setUser(signedInUser)
-  }
+        if (!inMiniApp) {
+          console.warn('Not running inside a Farcaster mini app.')
+          setNotInMiniApp(true)
+          sdk.actions.ready()
+          return
+        }
+
+        const backendOrigin = import.meta.env.VITE_BACKEND_ORIGIN as string | undefined
+        if (!backendOrigin) {
+          console.error('VITE_BACKEND_ORIGIN is not set')
+          return
+        }
+
+        const res = await sdk.quickAuth.fetch(`${backendOrigin}/me`)
+        if (res.ok) {
+          const authedUser = (await res.json()) as AuthedUser
+          setUser(authedUser)
+        } else {
+          console.error('Quick Auth request failed with status', res.status)
+        }
+      } catch (error) {
+        console.error('Quick Auth error', error)
+      } finally {
+        sdk.actions.ready()
+      }
+    })()
+  }, [])
 
   const handleSignOut = () => {
     setUser(null)
   }
 
-  // Show sign-in screen if not authenticated
-  if (!user) {
+  // If we're not inside a Farcaster mini app (e.g. regular browser dev),
+  // show a simple message instead of trying to use Quick Auth.
+  if (notInMiniApp && !user) {
     return (
       <div className="sign-in-container">
         <div className="sign-in-content">
           <h1>Base Claim</h1>
-          <p className="sign-in-subtitle">Sign in with Base to access the Claim Launch Platform</p>
-          <SignInWithBase onSignIn={handleSignIn} />
+          <p className="sign-in-subtitle">
+            This app uses Farcaster Quick Auth and must run as a Farcaster mini app.
+          </p>
+          <p className="sign-in-subtitle">
+            Open it from a Farcaster client (e.g. Warpcast) to sign in.
+          </p>
         </div>
       </div>
     )
+  }
+
+  // While Quick Auth is running inside a mini app, let the splash screen handle UI.
+  if (!user) {
+    return null
   }
 
   // Show app content after authentication
