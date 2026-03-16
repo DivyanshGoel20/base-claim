@@ -43,6 +43,11 @@ function App() {
     )
   }
 
+  // Always call ready once on mount so the host knows when the app is interactive.
+  useEffect(() => {
+    sdk.actions.ready()
+  }, [])
+
   useEffect(() => {
     ;(async () => {
       try {
@@ -51,7 +56,6 @@ function App() {
         if (!inMiniApp) {
           console.warn('Not running inside a Farcaster mini app.')
           setNotInMiniApp(true)
-          sdk.actions.ready()
           return
         }
 
@@ -70,8 +74,6 @@ function App() {
         }
       } catch (error) {
         console.error('Quick Auth error', error)
-      } finally {
-        sdk.actions.ready()
       }
     })()
   }, [])
